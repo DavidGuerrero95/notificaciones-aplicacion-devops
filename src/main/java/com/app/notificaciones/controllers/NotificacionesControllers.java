@@ -146,6 +146,23 @@ public class NotificacionesControllers {
         eService.enviarMensaje(mensaje);
     }
 
+    // ************ EVENTOS ************ //
+
+    // MICROSERVICIO EVENTOS -> ENVIAR ALERTA
+    @PostMapping("/notificaciones/eventos/")
+    public void enviarMensajeAlerta(@RequestParam("emails") List<String> emails, @RequestParam("name") String name,
+                                    @RequestParam("typeEmergency") Integer typeEmergency) {
+        Mensajes mensaje = new Mensajes();
+        String texto = "El usuario: "+name+" tiene una emergencia de tipo: "+typeEmergency+" Comunícate urgentemente";
+        mensaje.setName("Emergencia: Botón de pánico");
+        mensaje.setMensaje(texto);
+        emails.forEach(x -> {
+            mensaje.setEmail(x);
+            eService.enviarMensaje(mensaje);
+        });
+
+    }
+
     // ************ PROYECTOS ************ //
 
     // MICROSERVICIO PROYECTOS -> ENVIAR CODIGO - CAMBIAR ENABLED
